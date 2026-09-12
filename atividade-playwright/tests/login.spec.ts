@@ -4,22 +4,22 @@ test.describe('login funcional', () => {
   test('permite login com credenciais válidas', async ({ page }) => {
     await page.goto('/login');
 
-    await page.getByLabel('E-mail').fill('ana@exemplo.com');
-    await page.getByLabel('Senha').fill('SenhaSegura123!');
+    await page.getByLabel('E-mail').fill('teste#gmail.com');
+    await page.getByLabel('Senha').fill('123Senha123!');
     await page.getByRole('button', { name: 'Entrar' }).click();
 
     await expect(page).toHaveURL(/\/conta$/);
     await expect(page.getByRole('heading', { name: 'Minha conta' })).toBeVisible();
-    await expect(page.getByTestId('usuario')).toHaveText('Usuário: Ana');
+    await expect(page.getByTestId('usuario')).toHaveText('Usuário: Teste');
     await expect
       .poll(() => page.evaluate(() => sessionStorage.getItem('usuarioAutenticado')))
-      .toBe('Ana');
+      .toBe('Teste');
   });
 
   test('nega login com senha inválida', async ({ page }) => {
     await page.goto('/login');
 
-    await page.getByLabel('E-mail').fill('ana@exemplo.com');
+    await page.getByLabel('E-mail').fill('teste#gmail.com');
     await page.getByLabel('Senha').fill('senha-incorreta');
     await page.getByRole('button', { name: 'Entrar' }).click();
 
@@ -30,4 +30,3 @@ test.describe('login funcional', () => {
       .toBeNull();
   });
 });
-
